@@ -14,7 +14,7 @@
 
      <div *ngSwitchCase="'comment'" fxFlex fxFlexOffset="120px" class="form-size">
 
-        <form novalidate [formGroup]="feedbackForm" #cform="ngForm" (ngSubmit)="onSubmit()">
+        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onFeedbackSubmit()">
           <p>
             <mat-form-field class="half-width" dividerColor="{{(formErrors.name) ? 'warn' : 'primary'}}" required>
               <input matInput formControlName="name" placeholder="Your Name" type="text">
@@ -38,13 +38,14 @@
                 </mat-hint>
               </mat-form-field>
           </p>
+          <mat-slide-toggle matInput formControlName="agree">May we contact you?</mat-slide-toggle>
           <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
         </form>
       </div>
 
     <div *ngSwitchCase="'story'">
       <div fxFlex fxFlexOffset="120px" class="form-size">
-        <form novalidate [formGroup]="storyForm" #sform="ngForm" (ngSubmit)="onSubmit()">
+        <form novalidate [formGroup]="storyForm" #sform="ngForm" (ngSubmit)="onStorySubmit()">
           <p>
             <mat-form-field class="half-width" dividerColor="{{(formErrors.name) ? 'warn' : 'primary'}}" required>
               <input matInput formControlName="name" placeholder="Your Name" type="text">
@@ -61,7 +62,7 @@
                 </mat-hint>
               </mat-form-field>
           </p>
-          <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
+          <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="storyForm.invalid">Submit</button>
         </form>
       </div>
     </div>

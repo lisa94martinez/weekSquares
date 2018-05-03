@@ -1,21 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Story } from '../shared/story';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { baseURL } from '../shared/baseurl';
-import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
-import 'rxjs/add/operator/catch';
+import { Injectable } from '@angular/core';
+
+import { AngularFirestore } from 'angularfire2/firestore';
+
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class StoryService {
 
-  constructor(private http: HttpClient,
-              private processHTTPMsgService: ProcessHTTPMsgService) { }
+  constructor(private afs: AngularFirestore) { }
 
-  submitStory(Story: Story): Observable<Story> {
-    return this.http.post(baseURL + 'story', Story)
-    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  postStory(story: any): Promise<any> {
 
+    return this.afs.collection('stories')
+      .add({
+        name: story.name,
+        message: story.message,
+        featured: story.featured,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
   }
+
 }

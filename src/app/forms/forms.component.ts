@@ -14,11 +14,9 @@ import { StoryService } from '../services/story.service';
 })
 export class FormsComponent implements OnInit {
 
-  @ViewChild('cform') feedbackFormDirective;
+  @ViewChild('fform') feedbackFormDirective;
   feedbackForm: FormGroup;
   feedback: Feedback;
-  submitted = null;
-  showForm = true;
 
   @ViewChild('sform') storyFormDirective;
   storyForm: FormGroup;
@@ -37,9 +35,6 @@ export class FormsComponent implements OnInit {
     },
     'message': {
       'required': 'message is required.'
-    },
-    'email': {
-      'email': 'Email not in valid format'
     }
   };
 
@@ -56,7 +51,7 @@ export class FormsComponent implements OnInit {
     this.feedbackForm = this.fb.group({
       name: ['', Validators.required],
       message: ['', Validators.required ],
-      email: ['',  Validators.email ],
+      email: '',
       agree: false,
     });
 
@@ -70,7 +65,6 @@ export class FormsComponent implements OnInit {
     this.storyForm = this.fb.group({
       name: ['', Validators.required],
       message: ['', Validators.required ],
-      featured: false,
     });
 
     this.storyForm.valueChanges
@@ -114,43 +108,29 @@ export class FormsComponent implements OnInit {
   }
 
   onFeedbackSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.showForm = false;
-    this.feedbackservice.submitFeedback(this.feedback)
-      .subscribe(feedback => {
-         this.submitted = feedback;
-         this.feedback = null;
-         setTimeout(() => { this.submitted = null; this.showForm = true; }, 5000);
-        },
-        error => console.log(error.status, error.message));
-    this.feedbackForm.reset({
-      name: '',
-      email: '',
-      agree: false,
-      message: ''
-    });
-    this.feedbackFormDirective.resetForm();
-  }
+  console.log(this.feedbackForm.value);
+  this.feedbackservice.postFeedback( this.feedbackForm.value)
+    .catch(err => console.log("Error ", err));
+  this.feedbackForm.reset({
+    name: '',
+    message: '',
+    agree: false
+  });
+  this.feedbackFormDirective.resetForm();
+}
+
+
 
   onStorySubmit() {
-    this.story = this.storyForm.value;
-    console.log(this.story);
-    this.showForm = false;
-    this.storyservice.submitStory(this.story)
-      .subscribe(story => {
-         this.submitted = story;
-         this.story = null;
-         setTimeout(() => { this.submitted = null; this.showForm = true; }, 5000);
-        },
-        error => console.log(error.status, error.message));
-    this.storyForm.reset({
-      name: '',
-      email: '',
-      agree: false,
-      message: ''
-    });
-    this.feedbackFormDirective.resetForm();
-  }
+  console.log(this.storyForm.value);
+  this.storyForm.value.featured = false;
+  this.storyservice.postStory( this.storyForm.value)
+    .catch(err => console.log("Error ", err));
+  this.storyForm.reset({
+    name: '',
+    message: ''
+  });
+  this.storyFormDirective.resetForm();
+}
 
 }

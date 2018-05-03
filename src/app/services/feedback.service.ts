@@ -1,21 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Feedback } from '../shared/feedback';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { baseURL } from '../shared/baseurl';
-import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
-import 'rxjs/add/operator/catch';
+import { Injectable } from '@angular/core';
+
+import { AngularFirestore } from 'angularfire2/firestore';
+
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class FeedbackService {
 
-  constructor(private http: HttpClient,
-              private processHTTPMsgService: ProcessHTTPMsgService) { }
+  constructor(private afs: AngularFirestore) { }
 
-  submitFeedback(feedback: Feedback): Observable<Feedback> {
-    return this.http.post(baseURL + 'feedback', feedback)
-    .catch(error => { return this.processHTTPMsgService.handleError(error); });
-
+  postFeedback(feedback: any): Promise<any> {
+    return this.afs.collection('feedback')
+      .add({
+        name: feedback.name,
+        message: feedback.message,
+        email: feedback.email,
+        agree: feedback.agree,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
   }
+
 }
