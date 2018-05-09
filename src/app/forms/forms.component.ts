@@ -19,8 +19,9 @@ export class FormsComponent implements OnInit {
 
   public options: Object = {
   charCounterCount: true,
-  toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color'],
+  toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough'],
   quickInsertTags: [''],
+  htmlAllowedTags: [ 'a', 'b', 'i', 'p', 's', 'strike', 'strong'],
   height: 250,
 };
 
@@ -35,7 +36,7 @@ export class FormsComponent implements OnInit {
 
   formErrors = {
     'name': '',
-    'email': '',
+    'title': '',
     'message': ''
   };
 
@@ -44,8 +45,12 @@ export class FormsComponent implements OnInit {
       'required': 'Name is required.'
     },
     'message': {
-      'required': 'message is required.'
+      'required': 'Message is required.'
+    },
+    'title': {
+      'required': 'Title is required.'
     }
+
   };
 
   constructor(private fb: FormBuilder,
@@ -75,7 +80,8 @@ export class FormsComponent implements OnInit {
   createStoryForm() {
     this.storyForm = this.fb.group({
       name: ['', Validators.required],
-      message: ['', Validators.required ],
+      message: ['', Validators.required],
+      title: ['', Validators.required]
     });
 
     this.storyForm.valueChanges
@@ -139,7 +145,8 @@ export class FormsComponent implements OnInit {
     .catch(err => console.log("Error ", err));
   this.storyForm.reset({
     name: '',
-    message: ''
+    message: '',
+    title: ''
   });
   this.storyFormDirective.resetForm();
 }

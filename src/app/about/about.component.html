@@ -1,4 +1,16 @@
-<p>
-  about works!
-</p>
+<mat-list *ngIf="story" fxFlex >
+  <h2>Featured Stories</h2>
+  <mat-list-item *ngFor="let st of story" class="mat-list-item-word-wrap article">
+    <h2 mat-line> {{st.title}} </h2>
+    <!--
+    <p mat-line> {{st.safeMessage}}</p>
+  -->
+    <div  mat-line [innerHTML]="st.safeMessage"></div>
+    <p mat-line>
+      <span> -- {{st.name}}, {{st.updatedAt | date }} </span>
+    </p>
+  <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
+
 <app-forms></app-forms>

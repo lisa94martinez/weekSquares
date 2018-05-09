@@ -53,8 +53,15 @@
                           {{formErrors.name}}</span>
               </mat-hint>
             </mat-form-field>
+            <mat-form-field class="half-width" dividerColor="{{(formErrors.title) ? 'warn' : 'primary'}}" required>
+              <input matInput formControlName="title" placeholder="Title" type="text">
+              <mat-hint>
+                <span [hidden]="!(formErrors.title)">
+                          {{formErrors.name}}</span>
+              </mat-hint>
+            </mat-form-field>
             <mat-form-field class="full-width" dividerColor="{{(formErrors.email) ? 'warn' : 'primary'}}" required>
-                <textarea matInput [froalaEditor]='options' formControlName="message" placeholder="Your Story"></textarea>
+                <textarea matInput [froalaEditor]='options' [(froalaModel)]="editorContent" formControlName="message" placeholder="Your Story"></textarea>
                 <mat-hint color="warn">
                   <span [hidden]="!(formErrors.message)">
                             {{formErrors.message}}</span>
@@ -65,6 +72,9 @@
         </form>
       </div>
     </div>
+
+
+<div [froalaView]="editorContent"></div>
 
 
 
