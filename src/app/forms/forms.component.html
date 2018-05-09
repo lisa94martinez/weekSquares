@@ -12,7 +12,7 @@
   <mat-card-content>
   <div [ngSwitch]="action">
 
-     <div *ngSwitchCase="'comment'" fxFlex fxFlexOffset="120px" class="form-size">
+     <div *ngSwitchCase="'comment'" fxFlex fxFlexOffset="10%" class="form-size">
 
         <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onFeedbackSubmit()">
           <p>
@@ -43,8 +43,7 @@
         </form>
       </div>
 
-    <div *ngSwitchCase="'story'">
-      <div fxFlex fxFlexOffset="120px" class="form-size">
+      <div *ngSwitchCase="'story'" fxFlex fxFlexOffset="10%" class="form-size">
         <form novalidate [formGroup]="storyForm" #sform="ngForm" (ngSubmit)="onStorySubmit()">
           <p>
             <mat-form-field class="half-width" dividerColor="{{(formErrors.name) ? 'warn' : 'primary'}}" required>
@@ -55,7 +54,7 @@
               </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width" dividerColor="{{(formErrors.email) ? 'warn' : 'primary'}}" required>
-                <textarea matInput formControlName="message" placeholder="Your Story" rows=6></textarea>
+                <textarea matInput [froalaEditor]='options' formControlName="message" placeholder="Your Story"></textarea>
                 <mat-hint color="warn">
                   <span [hidden]="!(formErrors.message)">
                             {{formErrors.message}}</span>
@@ -66,7 +65,8 @@
         </form>
       </div>
     </div>
-  </div>
+
+
 
 
   </mat-card-content>

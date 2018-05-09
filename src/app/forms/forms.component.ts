@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { Feedback } from '../shared/feedback';
 import { Story } from '../shared/story';
@@ -7,12 +8,21 @@ import { Story } from '../shared/story';
 import { FeedbackService } from '../services/feedback.service';
 import { StoryService } from '../services/story.service';
 
+declare var $ :any;
+
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.scss']
 })
 export class FormsComponent implements OnInit {
+
+  public options: Object = {
+  charCounterCount: true,
+  toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color'],
+  quickInsertTags: [''],
+  height: 250,
+};
 
   @ViewChild('fform') feedbackFormDirective;
   feedbackForm: FormGroup;
@@ -45,6 +55,7 @@ export class FormsComponent implements OnInit {
   ngOnInit() {
     this.createFeedbackForm();
     this.createStoryForm();
+
   }
 
   createFeedbackForm() {

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule,
   MatInputModule, MatRadioModule, MatSelectModule, MatSliderModule,
@@ -27,7 +28,8 @@ import { StoryService } from './services/story.service';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environments';
+import 'hammerjs';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { environment } from '../environments/environment';
     FlexLayoutModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule.enablePersistence()
+    AngularFirestoreModule.enablePersistence(),
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
   ],
   providers: [
     { provide: 'BaseURL', useValue: baseURL },
