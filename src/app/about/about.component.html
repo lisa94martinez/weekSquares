@@ -1,13 +1,10 @@
-<mat-list *ngIf="story" fxFlex >
+<mat-list *ngIf="stories" fxFlex >
   <h2>Featured Stories</h2>
-  <mat-list-item *ngFor="let st of story" class="mat-list-item-word-wrap article">
-    <h2 mat-line> {{st.title}} </h2>
-    <!--
-    <p mat-line> {{st.safeMessage}}</p>
-  -->
-    <div  mat-line [innerHTML]="st.safeMessage"></div>
+  <mat-list-item *ngFor="let story of stories" class="mat-list-item-word-wrap"> <!-- looping stories -->
+    <h2 mat-line> {{story.title}} </h2>
+    <div  mat-line [innerHTML]="story.safeMessage"></div>
     <p mat-line>
-      <span> -- {{st.name}}, {{st.updatedAt | date }} </span>
+      <span> -- {{story.name}}, {{story.updatedAt | date }} </span>
     </p>
   <mat-divider></mat-divider>
   </mat-list-item>

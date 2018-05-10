@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
@@ -22,7 +21,6 @@ import { AppRoutingModule } from './/app-routing.module';
 import { baseURL } from './shared/baseurl';
 import { HighlightDirective } from './directives/highlight.directive';
 
-import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { FeedbackService } from './services/feedback.service';
 import { StoryService } from './services/story.service';
 
@@ -50,7 +48,6 @@ import 'hammerjs';
     MatSlideToggleModule, MatToolbarModule, MatListModule, MatGridListModule,
     MatCardModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule,
     FormsModule,
-    HttpClientModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -59,7 +56,6 @@ import 'hammerjs';
   ],
   providers: [
     { provide: 'BaseURL', useValue: baseURL },
-    ProcessHTTPMsgService,
     FeedbackService,
     StoryService
   ],

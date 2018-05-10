@@ -1,12 +1,8 @@
-import { Component, OnInit, Pipe, PipeTransform, SecurityContext  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Story } from '../shared/story';
 import { StoryService } from '../services/story.service';
 
-
-
-
-@Pipe({ name: 'keepHtml', pure: false })
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -14,7 +10,7 @@ import { StoryService } from '../services/story.service';
 })
 export class AboutComponent implements OnInit {
 
-  story: Story[];
+  stories: Story[];
   storyErrMess: string;
   safeMessage: SafeHtml;
 
@@ -24,21 +20,13 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
     this.storyservice.getFeaturedStory()
      .subscribe(story => {
-       this.story = story
-//       this.story.safeMessage = this.domsanitizer.sanitize(SecurityContext.HTML, this.story.message)
-//       this.story.safeMessage = this.domsanitizer.bypassSecurityTrustHtml(this.story.message)
-        console.log(this.story)
-
-        this.story.forEach(st => {
-          st.safeMessage = this.domsanitizer.bypassSecurityTrustHtml(st.message)
+       this.stories = story
+       console.log(this.stories)
+       this.stories.forEach(story => {
+         story.safeMessage = this.domsanitizer.bypassSecurityTrustHtml(story.message) //HTML escape
         })
-
-
-       errmess => this.storyErrMess = <any>errmess
+        errmess => this.storyErrMess = <any>errmess
      })
-
   }
-
-
 
 }

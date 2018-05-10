@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 import { Feedback } from '../shared/feedback';
 import { Story } from '../shared/story';
@@ -21,9 +20,20 @@ export class FormsComponent implements OnInit {
   charCounterCount: true,
   toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough'],
   quickInsertTags: [''],
-  htmlAllowedTags: [ 'a', 'b', 'i', 'p', 's', 'strike', 'strong'],
-  height: 250,
+  htmlRemoveTags: [ 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'base', 'bdi', 'bdo', 'blockquote', 'br', 'button', 'canvas',
+                    'caption', 'cite', 'code', 'col', 'colgroup', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
+                    'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header',
+                    'hgroup', 'hr', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'link', 'main', 'map', 'mark', 'menu',
+                    'menuitem', 'meter', 'nav', 'noscript', 'object', 'optgroup', 'option', 'output', 'param', 'pre', 'progress', 'queue',
+                    'rp', 'ruby', 'samp', 'script', 'style', 'section', 'select', 'small', 'source', 'span', 'sub', 'summary', 'sup',
+                    'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'var', 'video', 'wbr'],
+  linkEditButtons: [''],
+  pastePlain: true,
+  wordPasteModal: false,
+  height:250
+
 };
+
 
   @ViewChild('fform') feedbackFormDirective;
   feedbackForm: FormGroup;
@@ -32,7 +42,7 @@ export class FormsComponent implements OnInit {
   @ViewChild('sform') storyFormDirective;
   storyForm: FormGroup;
   story: Story;
-  action:string ="comment";
+  action:string ="feedback";
 
   formErrors = {
     'name': '',
@@ -50,7 +60,6 @@ export class FormsComponent implements OnInit {
     'title': {
       'required': 'Title is required.'
     }
-
   };
 
   constructor(private fb: FormBuilder,
@@ -60,9 +69,10 @@ export class FormsComponent implements OnInit {
   ngOnInit() {
     this.createFeedbackForm();
     this.createStoryForm();
-
   }
 
+
+//feedbackForm functions
   createFeedbackForm() {
     this.feedbackForm = this.fb.group({
       name: ['', Validators.required],
@@ -76,21 +86,6 @@ export class FormsComponent implements OnInit {
 
     this.onFeedbackValueChanged(); // (re)set form validation messages
   }
-
-  createStoryForm() {
-    this.storyForm = this.fb.group({
-      name: ['', Validators.required],
-      message: ['', Validators.required],
-      title: ['', Validators.required]
-    });
-
-    this.storyForm.valueChanges
-      .subscribe(data => this.onStoryValueChanged(data));
-
-    this.onStoryValueChanged(); // (re)set form validation messages
-  }
-
-
 
   onFeedbackValueChanged(data?: any) {
     if (!this.feedbackForm) { return; }
@@ -106,6 +101,32 @@ export class FormsComponent implements OnInit {
         }
       }
     }
+  }
+
+  onFeedbackSubmit() {
+    console.log(this.feedbackForm.value);
+    this.feedbackservice.postFeedback( this.feedbackForm.value)
+      .catch(err => console.log("Error ", err));
+    this.feedbackForm.reset({
+      name: '',
+      message: '',
+      agree: false
+    });
+    this.feedbackFormDirective.resetForm();
+  }
+
+//storyForm functions
+  createStoryForm() {
+    this.storyForm = this.fb.group({
+      name: ['', Validators.required],
+      message: ['', Validators.required],
+      title: ['', Validators.required]
+    });
+
+    this.storyForm.valueChanges
+      .subscribe(data => this.onStoryValueChanged(data));
+
+    this.onStoryValueChanged(); // (re)set form validation messages
   }
 
   onStoryValueChanged(data?: any) {
@@ -124,31 +145,17 @@ export class FormsComponent implements OnInit {
     }
   }
 
-  onFeedbackSubmit() {
-  console.log(this.feedbackForm.value);
-  this.feedbackservice.postFeedback( this.feedbackForm.value)
-    .catch(err => console.log("Error ", err));
-  this.feedbackForm.reset({
-    name: '',
-    message: '',
-    agree: false
-  });
-  this.feedbackFormDirective.resetForm();
-}
-
-
-
   onStorySubmit() {
-  console.log(this.storyForm.value);
-  this.storyForm.value.featured = false;
-  this.storyservice.postStory( this.storyForm.value)
-    .catch(err => console.log("Error ", err));
-  this.storyForm.reset({
-    name: '',
-    message: '',
-    title: ''
-  });
-  this.storyFormDirective.resetForm();
-}
+    console.log(this.storyForm.value);
+    this.storyForm.value.featured = false;
+    this.storyservice.postStory( this.storyForm.value)
+      .catch(err => console.log("Error ", err));
+    this.storyForm.reset({
+      name: '',
+      message: '',
+      title: ''
+    });
+    this.storyFormDirective.resetForm();
+  }
 
 }

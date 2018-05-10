@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>
       <mat-button-toggle-group  [(ngModel)]="action">
-        <mat-button-toggle value="comment"  ngDefaultControl>comment</mat-button-toggle>
+        <mat-button-toggle value="comment"  ngDefaultControl>feedback</mat-button-toggle>
         <mat-button-toggle value="story"  ngDefaultControl>story</mat-button-toggle>
       </mat-button-toggle-group>
 
@@ -11,8 +11,8 @@
 
   <mat-card-content>
   <div [ngSwitch]="action">
-
-     <div *ngSwitchCase="'comment'" fxFlex fxFlexOffset="10%" class="form-size">
+      <!-- start the feedback form -->
+     <div *ngSwitchCase="'feedback'" fxFlex fxFlexOffset="10%" class="form-size">
 
         <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onFeedbackSubmit()">
           <p>
@@ -42,6 +42,8 @@
           <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
         </form>
       </div>
+        <!--end feedback form
+        start the story form -->
 
       <div *ngSwitchCase="'story'" fxFlex fxFlexOffset="10%" class="form-size">
         <form novalidate [formGroup]="storyForm" #sform="ngForm" (ngSubmit)="onStorySubmit()">
@@ -70,15 +72,10 @@
           </p>
           <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="storyForm.invalid">Submit</button>
         </form>
+        <div [froalaView]="editorContent"></div>  <!-- testing Froala editor output -->
       </div>
+        <!-- end story form -->
     </div>
 
-
-<div [froalaView]="editorContent"></div>
-
-
-
-
   </mat-card-content>
-
 </mat-card>

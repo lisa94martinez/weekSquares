@@ -24,14 +24,14 @@ export class StoryService {
   }
 
   getFeaturedStory(): Observable<Story[]> {
-  return this.afs.collection('stories', ref => ref.where('featured', '==', true)).snapshotChanges()
-  .map(actions => {
-    return actions.map(action => {
-      const data = action.payload.doc.data() as Story;
-      const _id = action.payload.doc.id;
-      return { _id, ...data };
+    return this.afs.collection('stories', ref => ref.where('featured', '==', true)).snapshotChanges()
+    .map(actions => {
+      return actions.map(action => {
+        const data = action.payload.doc.data() as Story;
+        const _id = action.payload.doc.id;
+        return { _id, ...data };
+      });
     });
-  });
-}
+  }
 
 }
